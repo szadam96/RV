@@ -17,9 +17,9 @@ with open(os.path.join("echonet", "__version__.py")) as f:
 
 setuptools.setup(
     name="echonet",
-    description="Video-based AI for beat-to-beat cardiac function assessment.",
+    description="Video-based AI for RV FAC assessment.",
     version=version["__version__"],
-    url="https://echonet.github.io/dynamic",
+    url="https://github.com/echonet/RV",
     packages=setuptools.find_packages(),
     install_requires=[
         "click",
@@ -32,7 +32,6 @@ setuptools.setup(
         "opencv-python",
         "scikit-image",
         "tqdm",
-        "sklearn"
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
