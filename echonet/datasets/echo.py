@@ -7,8 +7,6 @@ import pandas
 import PIL
 
 import numpy as np
-import shapely.geometry
-import skimage.draw
 import torch
 import torchvision
 import echonet

@@ -22,5 +22,8 @@ del click
 
 main.add_command(utils.segmentation.run)
 main.add_command(utils.video.run)
+main.add_command(utils.preprocess.run)
+main.add_command(utils.video_inference.run)
+main.add_command(utils.segmentation_inference.run)
 
 __all__ = ["__version__", "config", "datasets", "main", "utils"]

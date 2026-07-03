@@ -342,15 +342,13 @@ def run_epoch(model, dataloader, train, optim, device, save_all=False, block_siz
     s1 = 0     # sum of ground truth EF
     s2 = 0     # Sum of ground truth EF squared
 
-    filename = []
     yhat = []
     y = []
 
     with torch.set_grad_enabled(train):
         with tqdm.tqdm(total=len(dataloader)) as pbar:
-            for (X, (fn, outcome)) in dataloader:
+            for (X, outcome) in dataloader:
 
-                filename.extend(fn)
                 y.append(outcome.numpy())
                 s1 += outcome.sum().item()
                 s2 += (outcome ** 2).sum().item()
@@ -393,4 +391,4 @@ def run_epoch(model, dataloader, train, optim, device, save_all=False, block_siz
         yhat = np.concatenate(yhat)
     y = np.concatenate(y)
 
-    return total / n, filename, yhat, y
+    return total / n, yhat, y
