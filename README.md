@@ -1,9 +1,9 @@
 # EchoNet-RV: A Deep Learning Model for the Automated Echocardiographic Assessment of Right Ventricular Function
 
-EchoNet-RV is a deep learning model that enables frame-by-frame segmentation of the right ventricle (RV) and prediction of RV fractional area change (RVFAC) from apical four-chamber (A4C) echocardiographic videos. In the final version of EchoNet-RV, the segmentation module and the RVFAC inference module operate independently; therefore, RVFAC prediction is entirely segmentation-free.
+EchoNet-RV is a deep learning model that enables frame-by-frame segmentation of the right ventricle (RV) and prediction of RV fractional area change (RVFAC) from apical four-chamber view (A4C) echocardiographic videos. In the final version of EchoNet-RV, the segmentation module and the RVFAC regression module operate independently; therefore, RVFAC prediction is entirely segmentation-free.
 
 > [**Artificial Intelligence-Enabled Echocardiographic Assessment of Right Ventricular Function**](https://pubmed.ncbi.nlm.nih.gov/41646670/)<br/>
-  Márton Tokodi, Bryan He, Andrea Ferencz, Ádám Szijártó, Kai Shiida, Máté Tolvaj, Alexandra Fábián, Marcell Illyés, Milos Vukadinovic, Andreas Østvik, Vegard Holmstrøm, Bjørnar Grenne, Béla Merkely, Susan Cheng, Yasufumi Nagata, Masaaki Takeuchi, Chung-Lieh Hung, Attila Kovács, David Ouyang.<br/><b>(under review)</b> (2026)
+  Márton Tokodi, Bryan He, Andrea Ferencz, Ádám Szijártó, Kai Shiida, Máté Tolvaj, Alexandra Fábián, Marcell Illyés, Milos Vukadinovic, Andreas Østvik, Vegard Holmstrøm, Bjørnar Grenne, Béla Merkely, Susan Cheng, Yasufumi Nagata, Masaaki Takeuchi, Chung-Lieh Hung, Attila Kovács, David Ouyang. <b>(under review)</b> (2026)<br/>
 
 ## Architecture of EchoNet-RV
 
@@ -12,6 +12,9 @@ EchoNet-RV comprises two key modules:
 2) <b>RVFAC regression module:</b> A spatiotemporal convolutional neural network based on the R(2+1)D-18 architecture that directly estimates RVFAC from each video without relying on RV segmentation.
 
 Given that substantial beat-to-beat variation in the end-diastolic and end-systolic RV areas (and thus in RVFAC) may occur in conditions such as atrial fibrillation and premature atrial or ventricular contractions, test-time augmentation was applied to improve the robustness of the final predictions. Briefly, five potentially overlapping 32-frame clips were randomly sampled from each video, and the RVFAC predictions generated for these clips by the RVFAC regression module were averaged to obtain the final video-level prediction.
+
+![Schematic illustration of EchoNet-RV's architecture](imgs/echonet_rv_architecture-01.png)
+<div align="center"><i><b>Figure 1</b>Schematic illustration of EchoNet-RV's architecture</i></div>
 
 ## Datasets used for training and evaluation of EchoNet-RV
 
@@ -23,15 +26,24 @@ Given that substantial beat-to-beat variation in the end-diastolic and end-systo
 
 <b>University of Occupational and Environmental Health dataset:</b> The third external test set comprised 1,315 A4C videos from 341 studies of 341 patients who underwent transthoracic echocardiography between January 2014 and December 2020 at the University Hospital of the University of Occupational and Environmental Health (UOEH; Kitakyushu, Japan).
 
+![Training and evaluation of EchoNet-RV](imgs/echonet_rv_datasets-01)
+<div align="center"><i><b>Figure 1</b>Training and evaluation of EchoNet-RV</i></div>
+
 ## Performance of EchoNet-RV
 
 ### Performance in RV segmentation
 
 EchoNet-RV’s segmentation module segmented the RV in all human-annotated end-diastolic and end-systolic frames with Dice coefficients of 0.893 (95% CI: 0.891–0.895), 0.797 (95% CI: 0.795–0.798), 0.788 (95% CI: 0.785–0.790), and 0.826 (95% CI: 0.820–0.832) in the held-out internal test set and the Semmelweis, MMH, and UOEH datasets, respectively.
 
+![Representative examples of semantic segmentation outputs](imgs/network_architecture-01.png)
+<div align="center"><i><b>Figure 1</b>Representative examples of semantic segmentation outputs</i></div>
+
 ### Performance in RVFAC prediction
 
 EchoNet-RV predicted RVFAC with mean absolute errors of 5.795 (95% CI: 5.560–6.031), 5.830 (95% CI: 5.692–5.970), 6.362 (95% CI: 6.064–6.660), and 4.937 (95% CI: 4.723–5.155) percentage points and intra-class correlation coefficients of 0.648 (95% CI: 0.616–0.677), 0.481 (95% CI: 0.452–0.509), 0.301 (95% CI: 0.243–0.356), and 0.632 (95% CI: 0.598–0.664) in the held-out test set and the Semmelweis, MMH, and UOEH datasets, respectively. Bland-Altman analysis showed biases of 0.233, 1.275, -2.635, and -2.316 percentage points, along with limits of agreement widths of 30.260, 28.837, 29.987, and 23.212 percentage points, in the four test sets, respectively.
+
+![Performance of EchoNet-RV in RFAC prediction](imgs/echonet_rv_rvfac_prediction_results-01)
+<div align="center"><i><b>Figure 1</b>Performance of EchoNet-RV in RFAC prediction</i></div>
 
 ## Usage
 
