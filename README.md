@@ -1,7 +1,6 @@
 # EchoNet-RV: A Deep Learning Model for the Automated Echocardiographic Assessment of Right Ventricular Function
 
-EchoNet-RV is a deep learning model that enables the frame-by-frame segmentation of the right ventricle (RV) and the prediction of RV fractional area change (RVFAC) from apical four-chamber (A4C) echocardiographic videos.
-!!!RVFAC estimateion is segmentetion-free
+EchoNet-RV is a deep learning model that enables frame-by-frame segmentation of the right ventricle (RV) and prediction of RV fractional area change (RVFAC) from apical four-chamber (A4C) echocardiographic videos. In the final version of EchoNet-RV, the segmentation module and the RVFAC inference module operate independently; therefore, RVFAC prediction is entirely segmentation-free.
 
 > [**Artificial Intelligence-Enabled Echocardiographic Assessment of Right Ventricular Function**](https://pubmed.ncbi.nlm.nih.gov/41646670/)<br/>
   Márton Tokodi, Bryan He, Andrea Ferencz, Ádám Szijártó, Kai Shiida, Máté Tolvaj, Alexandra Fábián, Marcell Illyés, Milos Vukadinovic, Andreas Østvik, Vegard Holmstrøm, Bjørnar Grenne, Béla Merkely, Susan Cheng, Yasufumi Nagata, Masaaki Takeuchi, Chung-Lieh Hung, Attila Kovács, David Ouyang<br/>
