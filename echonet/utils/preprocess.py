@@ -2,7 +2,6 @@ import os
 import pydicom
 import numpy as np
 import cv2
-import pandas as pd
 from pathlib import Path
 from tqdm import tqdm
 import click
@@ -11,7 +10,7 @@ import click
 @click.command("preprocess")
 @click.option("--data_dir", type=click.Path(exists=True, file_okay=False))
 @click.option("--output", type=click.Path(file_okay=False))
-@click.option("--crop_size", type=(int, int), default=(112,112))
+@click.option("--crop_size", type=(int, int), default=(112, 112))
 def run(data_dir, output, crop_size):
     """
     Preprocesses videos in the data_dir and saves them to the output directory.
@@ -25,94 +24,95 @@ def run(data_dir, output, crop_size):
     output = Path(output)
     os.makedirs(output, exist_ok=True)
 
-    for dcm_path in tqdm(dcm_paths):
-        if not os.path.exists(output / (dcm_path.stem + ".dcm.avi")):
+    for dcm_path in tqdm(dcm_paths, desc="Preprocessing DICOM files"):
+        if not os.path.exists(os.path.join(output, dcm_path.stem + ".avi")):
             try:
-                makeVideo(str(dcm_path), output, crop_size)
+                preprocess_video(dcm_path, output, crop_size)
             except Exception as e:
-                print(f"Error processing {dcm_path}: {e}")
-                
-def mask(output):
+                print(f"Error while preprocessing {dcm_path}: {e}")
+        else:
+            print(dcm_path, "has already been preprocessed.")
+
+
+def masking(output):
     dimension = output.shape[0]
     
     # Mask pixels outside of scanning sector
     m1, m2 = np.meshgrid(np.arange(dimension), np.arange(dimension))
-    
 
-    mask = ((m1+m2)>int(dimension/2) + int(dimension/10)) 
-    mask *=  ((m1-m2)<int(dimension/2) + int(dimension/10))
-    mask = np.reshape(mask, (dimension, dimension)).astype(np.int8)
-    maskedImage = cv2.bitwise_and(output, output, mask = mask)
-    
-    #print(maskedImage.shape)
-    
+    image_mask = ((m1 + m2) > int(dimension / 2) + int(dimension / 10))
+    image_mask *= ((m1 - m2) < int(dimension / 2) + int(dimension / 10))
+    image_mask = np.reshape(image_mask, (dimension, dimension)).astype(np.int8)
+    maskedImage = cv2.bitwise_and(output, output, mask=image_mask)
+
     return maskedImage
 
-def makeVideo(fileToProcess, destinationFolder, cropSize = (256,256), flip=False):
+
+def preprocess_video(fileToProcess, destinationFolder, cropSize=(256, 256), flip=False):
     try:
-        fileName = fileToProcess.split('/')[-1] #\\ if windows, / if on mac or sherlock
-                                                 #hex(abs(hash(fileToProcess.split('/')[-1]))).upper()
+        fileName = fileToProcess.stem
 
-        if not os.path.isdir(os.path.join(destinationFolder,fileName)):
+        # Load data from DICOM file
+        dicom_dataset = pydicom.dcmread(fileToProcess, force=True)
 
-            dataset = pydicom.dcmread(fileToProcess, force=True)
-            testarray = dataset.pixel_array
-            if len(testarray.shape) == 3:
-                testarray = np.stack([testarray, testarray, testarray], axis=3)
+        # Extract pixel array from the DICOM dataset
+        pixel_array = dicom_dataset.pixel_array
+        if len(pixel_array.shape) == 3:
+            pixel_array = np.stack([pixel_array, pixel_array, pixel_array], axis=3)
 
-            frame0 = testarray[0]
-            mean = np.mean(frame0, axis=1)
-            mean = np.mean(mean, axis=1)
-            try:
-                yCrop = np.where(mean<1)[0][0]
-            except:
-                yCrop = 0
-            testarray = testarray[:, yCrop:, :, :]
+        # Crop rows containing predominantly black pixels
+        frame0 = pixel_array[0]
+        mean = np.mean(frame0, axis=1)
+        mean = np.mean(mean, axis=1)
+        try:
+            yCrop = np.where(mean < 1)[0][0]
+        except:
+            yCrop = 0
+        pixel_array = pixel_array[:, yCrop:, :, :]
 
-            bias = int(np.abs(testarray.shape[2] - testarray.shape[1])/2)
-            if bias>0:
-                if testarray.shape[1] < testarray.shape[2]:
-                    testarray = testarray[:, :, bias:-bias, :]
-                else:
-                    testarray = testarray[:, bias:-bias, :, :]
+        # Crop frames if height is not equal to width
+        bias = int(np.abs(pixel_array.shape[2] - pixel_array.shape[1]) / 2)
+        if bias > 0:
+            if pixel_array.shape[1] < pixel_array.shape[2]:
+                pixel_array = pixel_array[:, :, bias:-bias, :]
+            else:
+                pixel_array = pixel_array[:, bias:-bias, :, :]
+        frames, height, width, channels = pixel_array.shape
 
-
-            #print(testarray.shape)
-            frames,height,width,channels = testarray.shape
-
-            fps = 30
-
-            try:
-                fps = dataset[(0x18, 0x40)].value
-            except:
-                print("couldn't find frame rate, default to 30")
-
-            fourcc = cv2.VideoWriter_fourcc('M','J','P','G')
-            video_filename = os.path.join(destinationFolder, fileName + '.avi')
-            out = cv2.VideoWriter(video_filename, fourcc, fps, cropSize)
-
-
-            for i in range(frames):
-
-                outputA = testarray[i,:,:,0]
-                smallOutput = outputA[int(height/10):(height - int(height/10)), int(height/10):(height - int(height/10))]
-
-                # Resize image
-                output = cv2.resize(smallOutput, cropSize, interpolation = cv2.INTER_CUBIC)
-
-                finaloutput = mask(output)
-                if flip:
-                    #flip the video horizontally
-                    finaloutput = np.flip(finaloutput, axis=1)
-
-                finaloutput = cv2.merge([finaloutput,finaloutput,finaloutput])
-                out.write(finaloutput)
-
-            out.release()
-
+        # Extract frame rate from DICOM tags
+        if hasattr(dicom_dataset, "RecommendedDisplayFrameRate"):
+            fps = int(dicom_dataset.RecommendedDisplayFrameRate)
+        elif hasattr(dicom_dataset, "FrameTime"):
+            fps = int(round(1000 / float(dicom_dataset.FrameTime)))
         else:
-            print(fileName,"hasAlreadyBeenProcessed")
+            fps = 50
+            print("Couldn't find frame rate. Using the default value of " + str(fps) + " frames per second.")
+
+        # Initialize video writer
+        fourcc = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
+        video_filename = os.path.join(destinationFolder, fileName + '.avi')
+        out = cv2.VideoWriter(video_filename, fourcc, fps, cropSize)
+
+        # Iterate through the frames of the DICOM file
+        for i in range(frames):
+            outputA = pixel_array[i, :, :, 0]
+
+            # Resize frame
+            smallOutput = outputA[int(height / 10):(height - int(height / 10)),
+                                  int(height / 10):(height - int(height / 10))]
+            output = cv2.resize(smallOutput, cropSize, interpolation=cv2.INTER_CUBIC)
+
+            # Mask image
+            final_output = masking(output)
+
+            # Flip horizontally (if needed)
+            if flip:
+                final_output = np.flip(final_output, axis=1)
+
+            # Create and save the final output frame
+            final_output = cv2.merge([final_output, final_output, final_output])
+            out.write(final_output)
+
+        out.release()
     except Exception as e:
         raise e
-    return 0
-

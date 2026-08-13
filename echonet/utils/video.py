@@ -1,11 +1,10 @@
-"""Functions for training and running EF prediction."""
+"""Functions for training and running the RVFAC regression module."""
 
 import math
 import os
 import time
 
 import click
-import matplotlib.pyplot as plt
 import numpy as np
 import sklearn.metrics
 import torch
@@ -62,7 +61,7 @@ def run(
     device=None,
     seed=0,
 ):
-    """Trains/tests EF prediction model.
+    """Trains/tests the RVFAC regression module.
 
     \b
     Args:
@@ -80,7 +79,7 @@ def run(
             Defaults to True.
         weights (str, optional): Path to checkpoint containing weights to
             initialize model. Defaults to None.
-        run_test (bool, optional): Whether or not to run on test.
+        run_test (bool, optional): Whether to run on test.
             Defaults to False.
         num_epochs (int, optional): Number of epochs during training.
             Defaults to 45.
@@ -114,7 +113,8 @@ def run(
 
     # Set default output directory
     if output is None:
-        output = os.path.join("output", "video", "{}_{}_{}_{}".format(model_name, frames, period, "pretrained" if pretrained else "random"))
+        output = os.path.join("output", "video", "{}_{}_{}_{}".format(model_name, frames, period,
+                                                                      "pretrained" if pretrained else "random"))
     os.makedirs(output, exist_ok=True)
 
     # Set device for computations
@@ -128,7 +128,7 @@ def run(
             with open(os.path.join(output, "mean_std_bias.pkl"), "rb") as f:
                 (mean, std, bias) = pickle.load(f)
         except:
-            nx = 0  # number of elements taken (should be equal to samples by end of for loop)
+            nx = 0  # number of elements taken (should be equal to the number of samples by end of for loop)
             s1 = 0.  # sum of elements along channels (ends up as np.array of dimension (channels,))
             s2 = 0.  # sum of squares of elements along channels (ends up as np.array of dimension (channels,))
             ny = 0
@@ -188,10 +188,8 @@ def run(
         lr_step_period = math.inf
     scheduler = torch.optim.lr_scheduler.StepLR(optim, lr_step_period)
 
-
     # Set up datasets and dataloaders
-    dataset = {}
-    dataset["train"] = echonet.datasets.Echo(root=data_dir, split="train", **kwargs, pad=12)
+    dataset = {"train": echonet.datasets.Echo(root=data_dir, split="train", **kwargs, pad=12)}
     if num_train_patients is not None and len(dataset["train"]) > num_train_patients:
         # Subsample patients (used for ablation experiment)
         indices = np.random.choice(len(dataset["train"]), num_train_patients, replace=False)
@@ -322,7 +320,7 @@ def run_epoch(model, dataloader, train, optim, device, save_all=False, block_siz
     Args:
         model (torch.nn.Module): Model to train/evaulate.
         dataloder (torch.utils.data.DataLoader): Dataloader for dataset.
-        train (bool): Whether or not to train model.
+        train (bool): Whether to train model.
         optim (torch.optim.Optimizer): Optimizer
         device (torch.device): Device to run on
         save_all (bool, optional): If True, return predictions for all
