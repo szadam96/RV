@@ -40,7 +40,7 @@ EchoNet-RV’s segmentation module segmented the RV in all human-annotated end-d
 
 ### Performance in RVFAC prediction
 
-EchoNet-RV predicted RVFAC with mean absolute errors of 5.795 (95% CI: 5.560–6.031), 5.830 (95% CI: 5.692–5.970), 6.362 (95% CI: 6.064–6.660), and 4.937 (95% CI: 4.723–5.155) percentage points and intra-class correlation coefficients of 0.648 (95% CI: 0.616–0.677), 0.481 (95% CI: 0.452–0.509), 0.301 (95% CI: 0.243–0.356), and 0.632 (95% CI: 0.598–0.664) in the held-out test set and the Semmelweis, MMH, and UOEH datasets, respectively. Bland-Altman analysis showed biases of 0.233, 1.275, -2.635, and -2.316 percentage points, along with limits of agreement widths of 30.260, 28.837, 29.987, and 23.212 percentage points, in the four test sets, respectively.
+EchoNet-RV predicted RVFAC with mean absolute errors (MAEs) of 5.795 (95% CI: 5.560–6.031), 5.830 (95% CI: 5.692–5.970), 6.362 (95% CI: 6.064–6.660), and 4.937 (95% CI: 4.723–5.155) percentage points and intra-class correlation coefficients (ICCs) of 0.648 (95% CI: 0.616–0.677), 0.481 (95% CI: 0.452–0.509), 0.301 (95% CI: 0.243–0.356), and 0.632 (95% CI: 0.598–0.664) in the held-out test set and the Semmelweis, MMH, and UOEH datasets, respectively. Bland-Altman analysis showed biases of 0.233, 1.275, -2.635, and -2.316 percentage points, along with limits of agreement (LOA) widths of 30.260, 28.837, 29.987, and 23.212 percentage points, in the four test sets, respectively.
 
 ![Performance of EchoNet-RV in RFAC prediction](imgs/echonet_rv_rvfac_prediction_results-01.png)
 <div align="center"><i><b>Figure 1</b> Performance of EchoNet-RV in RFAC prediction</i></div>
