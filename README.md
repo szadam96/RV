@@ -60,7 +60,6 @@ git clone https://github.com/echonet/rv.git
 ```
 pip install -r requirements.txt
 pip install .
-
 ```
 
 NOTE: The inference scripts automatically download the required model weights, so there is no need to download them manually.
