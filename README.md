@@ -68,10 +68,12 @@ NOTE: The inference scripts automatically download the required model weights, s
 
 Run the following command to preprocess the DICOM files:
 ```
-python -m echonet preprocess --data_dir /path/to/dicom/files --output /path/to/output/videos --crop_size 112 112
+python -m echonet preprocess --data_dir /path/to/dicom/files --output /path/to/output/videos --crop_size 112 112 --flip False
 ```
 
 The preprocessed videos will be saved as `.avi` files in the specified output directory. During preprocessing, the pixel arrays are extracted from the DICOM files, leading near-black rows are removed, frames are center-cropped to a square field of view with an additional 10% margin crop, and a triangular mask is applied to exclude pixels outside the ultrasound sector. The frames are then resized to 112 × 112 pixels using bicubic interpolation.
+
+NOTE: EchoNet-RV accepts non-color-Doppler B-mode A4C videos, including both standard and RV-focused views. The model expects A4C videos to be in Stanford orientation, with the left ventricle on the right side of the image and the RV on the left. If a video is in Mayo orientation, with the RV on the right and the left ventricle on the left, it should be horizontally flipped by setting `--flip` to `True`.
 
 ### Running inference
 
