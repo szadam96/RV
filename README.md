@@ -5,9 +5,6 @@ EchoNet-RV is a deep learning model that enables frame-by-frame segmentation of 
 > [**Artificial Intelligence-Enabled Echocardiographic Assessment of Right Ventricular Function**](https://pubmed.ncbi.nlm.nih.gov/41646670/)<br/>
   Márton Tokodi, Bryan He, Andrea Ferencz, Ádám Szijártó, Kai Shiida, Máté Tolvaj, Alexandra Fábián, Marcell Illyés, Milos Vukadinovic, Andreas Østvik, Vegard Holmstrøm, Bjørnar Grenne, Béla Merkely, Susan Cheng, Yasufumi Nagata, Masaaki Takeuchi, Chung-Lieh Hung, Attila Kovács, David Ouyang.<br/><b>(under review)</b> (2026)
 
-## Clinical significance
-
-
 ## Architecture of EchoNet-RV
 
 EchoNet-RV comprises two key modules:
@@ -26,7 +23,6 @@ Given that substantial beat-to-beat variation in the end-diastolic and end-systo
 
 <b>University of Occupational and Environmental Health dataset:</b> The third external test set comprised 1,315 A4C videos from 341 studies of 341 patients who underwent transthoracic echocardiography between January 2014 and December 2020 at the University Hospital of the University of Occupational and Environmental Health (UOEH; Kitakyushu, Japan).
 
-
 ## Performance of EchoNet-RV
 
 ### Performance in RV segmentation
@@ -43,14 +39,11 @@ EchoNet-RV predicted RVFAC with mean absolute errors of 5.795 (95% CI: 5.560–6
 
 Follow the steps bellow to install EchoNet-RV:
 1) If you plan to run EchoNet-RV on a CUDA-enabled GPU, ensure that the CUDA Toolkit installed on your system is compatible with the PyTorch version specified in `requirements.txt`.
-2) Clone the repository to your desired location::
-3) 
+2) Clone the repository to your desired location:
 ```
 git clone https://github.com/echonet/rv.git
 ```
-
 3) Create and activate a Python virtual environment dedicated to this project. Model development was performed using Python 3.15, but the scripts in this repository have also been tested with Python 3.10.
-
 4) Navigate to the cloned repository and install the required dependencies and EchoNet-RV:
 ```
 pip install -r requirements.txt
@@ -58,10 +51,11 @@ pip install .
 
 ```
 
+NOTE: The inference scripts automatically download the required model weights, so there is no need to download them manually.
+
 ### Preprocessing DICOM files
 
 Run the following command to preprocess the DICOM files:
-
 ```
 python -m echonet preprocess --data_dir /path/to/dicom/files --output /path/to/output/videos --crop_size 112 112
 ```
@@ -70,12 +64,9 @@ The preprocessed videos will be saved as `.avi` files in the specified output di
 
 ### Running inference
 
-The inference scripts automatically download the required pretrained model weights.
-
 #### Semantic segmentation of the RV
 
 The following command performs frame-by-frame semantic segmentation of the RV cavity and saves the resulting outputs to the specified directory:
-
 ```
 python -m echonet segmentation_inference --data_dir /path/to/input/videos --output /path/to/output/videos
 ```
@@ -83,7 +74,6 @@ python -m echonet segmentation_inference --data_dir /path/to/input/videos --outp
 #### Prediction of RVFAC
 
 The following command predicts RVFAC directly from the preprocessed videos and saves the results to the specified output location:
-
 ```
 python -m echonet video_inference --data_dir /path/to/input/videos --output /path/to/output/videos
 ```
