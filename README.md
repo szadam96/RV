@@ -76,9 +76,9 @@ EchoNet-RV was also found to outperform previously published deep learning model
   <tr>
     <th></th>
     <th>EchoNet-RV</th>
-    <th><a href="https://pubmed.ncbi.nlm.nih.gov/38290912/">U-Net KP</a><sup>*</sup></th>
-    <th><a href="https://pubmed.ncbi.nlm.nih.gov/41219498/">EchoPrime</a><sup>*</sup></th>
-    <th><a href="https://pubmed.ncbi.nlm.nih.gov/40549400/">PanEcho</a><sup>*</sup></th>
+    <th><a href="https://pubmed.ncbi.nlm.nih.gov/38290912/">U-Net KP</a></th>
+    <th><a href="https://pubmed.ncbi.nlm.nih.gov/41219498/">EchoPrime</a></th>
+    <th><a href="https://pubmed.ncbi.nlm.nih.gov/40549400/">PanEcho</a></th>
   </tr>
 
   <tr>
