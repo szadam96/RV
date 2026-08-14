@@ -212,10 +212,10 @@ python -m echonet rvfac_inference --data_dir /path/to/input/videos --output /pat
 
 ## Contact
 
-For inquiries related to EchoNet-RV, contact Márton Tokodi, M.D., Ph.D. (tok<!--
+For inquiries related to EchoNet-RV, contact Márton Tokodi (tok<!--
 -->odi.mar<!--
 -->ton[at]semmelweis.h<!--
--->u) or David Ouyang, M.D. (davi<!--
+-->u) or David Ouyang (davi<!--
 -->d.ouy<!--
 -->ang[at]kp.o<!--
 -->rg).
