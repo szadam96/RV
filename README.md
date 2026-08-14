@@ -66,6 +66,7 @@ EchoNet-RV predicted RVFAC with mean absolute errors (MAEs) of 5.795 (95% CI: 5.
 ![Performance of EchoNet-RV in RVFAC prediction](imgs/echonet_rv_rvfac_prediction_results-01.png)
 <div align="center"><i><b>Figure 4.</b> Performance of EchoNet-RV in RVFAC prediction</i></div>
 
+
 EchoNet-RV was also found to outperform previously published deep learning models in both RVFAC prediction and the detection of RV dysfunction (RVFAC <35%) in the external test sets.
 
 <div align="center">
