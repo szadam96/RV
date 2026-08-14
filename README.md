@@ -86,9 +86,9 @@ EchoNet-RV was also found to outperform previously published deep learning model
   </tr>
   <tr>
     <td align="left">&nbsp;&nbsp;MAE, pp</td>
-    <td align="center">5.830<br><small>(5.670–5.992)</small></td>
-    <td align="center">6.602<br><small>(6.415–6.794)</small></td>
-    <td align="center">6.171<br> <small>(6.002–6.339)</small></td>
+    <td align="center">5.830<br>(5.670–5.992)</td>
+    <td align="center">6.602<br>(6.415–6.794)</td>
+    <td align="center">6.171<br>(6.002–6.339)</td>
     <td align="center">–</td>
   </tr>
   <tr>
