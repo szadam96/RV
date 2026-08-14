@@ -40,6 +40,13 @@ EchoNet-RV’s segmentation module segmented the RV in all human-annotated end-d
 | ![](imgs/0009_0000.gif) | ![](imgs/0137_0004.gif) | ![](imgs/0550_0000.gif) | ![](imgs/0602_0024.gif) |
 | ![](imgs/0096_0000.gif) | ![](imgs/0139_0001.gif) | ![](imgs/0562_0019.gif) | ![](imgs/0658_0035.gif) |
 
+
+| Normal                                 | Low Ejection Fraction                  | Arrhythmia                             |
+| ------                                 | ---------------------                  | ----------                             |
+| ![](docs/media/0X10A28877E97DF540.gif) | ![](docs/media/0X129133A90A61A59D.gif) | ![](docs/media/0X132C1E8DBB715D1D.gif) |
+| ![](docs/media/0X1167650B8BEFF863.gif) | ![](docs/media/0X13CE2039E2D706A.gif ) | ![](docs/media/0X18BA5512BE5D6FFA.gif) |
+| ![](docs/media/0X148FFCBF4D0C398F.gif) | ![](docs/media/0X16FC9AA0AD5D8136.gif) | ![](docs/media/0X1E12EEE43FD913E5.gif) |
+
 ![Representative examples of semantic segmentation outputs](imgs/network_architecture-01.png)
 <div align="center"><i><b>Figure 3.</b> Representative examples of semantic segmentation outputs</i></div>
 
