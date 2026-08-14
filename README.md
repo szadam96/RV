@@ -50,7 +50,7 @@ EchoNet-RV predicted RVFAC with mean absolute errors (MAEs) of 5.795 (95% CI: 5.
 ### Installation
 
 Follow the steps bellow to install EchoNet-RV:
-1) If you plan to run EchoNet-RV on a CUDA-enabled GPU, ensure that the CUDA Toolkit installed on your system is compatible with the PyTorch version specified in `requirements.txt`.
+1) If you plan to run EchoNet-RV on a CUDA-enabled GPU, ensure that the CUDA installed on your system is compatible with the PyTorch version specified in `requirements.txt`.
 2) Clone the repository to your desired location:
 ```
 git clone https://github.com/echonet/rv.git

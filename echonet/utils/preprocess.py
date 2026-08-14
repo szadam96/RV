@@ -11,7 +11,8 @@ import click
 @click.option("--data_dir", type=click.Path(exists=True, file_okay=False))
 @click.option("--output", type=click.Path(file_okay=False))
 @click.option("--crop_size", type=(int, int), default=(112, 112))
-def run(data_dir, output, crop_size):
+@click.option("--flip", type=bool, default=False)
+def run(data_dir, output, crop_size, flip):
     """
     Preprocesses videos in the data_dir and saves them to the output directory.
     """
@@ -27,7 +28,7 @@ def run(data_dir, output, crop_size):
     for dcm_path in tqdm(dcm_paths, desc="Preprocessing DICOM files"):
         if not os.path.exists(os.path.join(output, dcm_path.stem + ".avi")):
             try:
-                preprocess_video(dcm_path, output, crop_size)
+                preprocess_video(dcm_path, output, crop_size, flip)
             except Exception as e:
                 print(f"Error while preprocessing {dcm_path}: {e}")
         else:
