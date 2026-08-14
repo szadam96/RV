@@ -66,6 +66,24 @@ EchoNet-RV predicted RVFAC with mean absolute errors (MAEs) of 5.795 (95% CI: 5.
 ![Performance of EchoNet-RV in RVFAC prediction](imgs/echonet_rv_rvfac_prediction_results-01.png)
 <div align="center"><i><b>Figure 4.</b> Performance of EchoNet-RV in RVFAC prediction</i></div>
 
+EchoNet-RV was also found to outperform previously published deep learning models in both RVFAC prediction and the detection of RV dysfunction (RVFAC <35%) in the external test sets.
+
+|  | EchoNet-RV | [U-Net KP](https://pubmed.ncbi.nlm.nih.gov/38290912/) | [EchoPrime](https://pubmed.ncbi.nlm.nih.gov/41219498/) | [PanEcho](https://pubmed.ncbi.nlm.nih.gov/40549400/) |
+|---|---:|---:|---:|---:|
+| **Semmelweis dataset** |  |  |  |  |
+| MAE, pp | 5.830<br>(5.670–5.992) | 6.602<br>(6.415–6.794) | 6.171<br>(6.002–6.339) | – |
+| ICC | 0.481<br>(0.452–0.509) | 0.432<br>(0.400–0.463) | 0.423<br>(0.394–0.450) | – |
+| AUC (RVFAC <35%) | 0.727<br>(0.709–0.744) | 0.707<br>(0.689–0.725) | 0.683<br>(0.664–0.701) | 0.673<br>(0.654–0.692) |
+| **MMH dataset** |  |  |  |  |
+| MAE, pp | 6.362<br>(6.064–6.660) | 8.791<br>(8.392–9.217) | 6.728<br>(6.406–7.048) | – |
+| ICC | 0.301<br>(0.243–0.356) | 0.178<br>(0.116–0.235) | 0.192<br>(0.127–0.253) | – |
+| AUC (RVFAC <35%) | 0.684<br>(0.648–0.719) | 0.596<br>(0.555–0.633) | 0.652<br>(0.614–0.690) | 0.657<br>(0.619–0.695) |
+| **UOEH dataset** |  |  |  |  |
+| MAE, pp | 4.937<br>(4.723–5.155) | 7.984<br>(7.658–8.291) | 6.173<br>(5.921–6.430) | – |
+| ICC | 0.632<br>(0.598–0.664) | 0.333<br>(0.288–0.377) | 0.393<br>(0.346–0.436) | – |
+| AUC (RVFAC <35%) | 0.855<br>(0.834–0.876) | 0.666<br>(0.637–0.695) | 0.692<br>(0.663–0.720) | 0.730<br>(0.702–0.757) |
+<div align="center"><i><b>Table 1.</b> Performance of EchoNet-RV compared with other previously published models</i></div>
+
 ## Usage
 
 ### Installation
@@ -111,3 +129,13 @@ The following command predicts RVFAC directly from the preprocessed videos and s
 ```
 python -m echonet rvfac_inference --data_dir /path/to/input/videos --output /path/to/output
 ```
+
+## Contact
+
+For inquiries related to EchoNet-RV, contact Márton Tokodi, M.D., Ph.D. (tok<!--
+-->odi.mar<!--
+-->ton[at]semmelweis.h<!--
+-->u) or David Ouyang, M.D. (davi<!--
+-->d.ouy<!--
+-->ang[at]kp.o<!--
+-->rg).
