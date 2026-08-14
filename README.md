@@ -56,7 +56,7 @@ EchoNet-RV’s segmentation module segmented the RV in all human-annotated end-d
     <td><img src="imgs/0658_0035.gif"></td>
   </tr>
 </table>
-<i><b>Figure 3.</b> Representative examples of semantic segmentation outputs.</i>
+<i><b>Figure 3.</b> Representative examples of semantic segmentation outputs</i>
 </div>
 
 ### Performance in RVFAC prediction
