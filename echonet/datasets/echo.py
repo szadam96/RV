@@ -1,5 +1,3 @@
-"""EchoNet-Dynamic Dataset."""
-
 import math
 import os
 import collections
@@ -110,7 +108,7 @@ class Echo(torchvision.datasets.VisionDataset):
 
             self.header = data.columns.tolist()
             self.fnames = data["Filename"].tolist()
-            self.fnames = [fn if os.path.splitext(fn)[1] != "" else fn + ".avi" for fn in self.fnames]  # Assume avi if no suffix
+            self.fnames = [fn if os.path.splitext(fn)[1] != "" else fn + ".avi" for fn in self.fnames]
             self.outcome = data.values.tolist()
 
             # Load traces
@@ -297,10 +295,10 @@ class Echo(torchvision.datasets.VisionDataset):
                 if self.split == "CLINICAL_TEST" or self.split == "EXTERNAL_TEST":
                     target.append(np.float32(0))
                 else:
-                    # target.append(np.float32(self.outcome[index][self.header.index(t)]))  # TODO: is floating necessary
+                    # target.append(np.float32(self.outcome[index][self.header.index(t)])) # TODO: is floating necessary
                     target.append(self.outcome[index][self.header.index(t)])
 
-        if target != []:
+        if target:
             target = tuple(target) if len(target) > 1 else target[0]
             if self.target_transform is not None:
                 target = self.target_transform(target)

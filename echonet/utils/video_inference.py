@@ -1,4 +1,4 @@
-"""Functions for training and running the RVFAC regression module."""
+"""Functions for running inference with the RVFAC regression module."""
 
 import os
 import os.path
@@ -14,13 +14,13 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-@click.command("video_inference")
+@click.command("rvfac_inference")
 @click.option("--data_dir", type=click.Path(exists=True, file_okay=False))
 @click.option("--output", type=click.Path(file_okay=False))
 def run(data_dir, output):
     os.makedirs(output, exist_ok=True)
 
-    # Download weights
+    # Download model weights
     DestinationForWeights = "weights"
     rvfacWeightsURL = "https://github.com/echonet/RV/releases/download/v1/video.pt"
 
@@ -37,14 +37,14 @@ def run(data_dir, output):
     model.fc = torch.nn.Linear(model.fc.in_features, 1)
 
     if torch.cuda.is_available():
-        print("CUDA is available: using original weights.")
+        print("CUDA is available: using GPU acceleration.")
         device = torch.device("cuda")
         model = torch.nn.DataParallel(model)
         model.to(device)
         checkpoint = torch.load(os.path.join(DestinationForWeights, os.path.basename(rvfacWeightsURL)))
         model.load_state_dict(checkpoint["state_dict"])
     else:
-        print("CUDA is not available: using CPU weights.")
+        print("CUDA is not available: using CPU.")
         device = torch.device("cpu")
         checkpoint = torch.load(os.path.join(DestinationForWeights, os.path.basename(rvfacWeightsURL)),
                                 map_location="cpu")
@@ -55,6 +55,7 @@ def run(data_dir, output):
     mean = checkpoint["mean"]
     std = checkpoint["std"]
 
+    # Sample five 32-frame clips per video for test-time augmentation
     kwargs = {"target_type": "EF",
               "mean": mean,
               "std": std,
@@ -64,11 +65,13 @@ def run(data_dir, output):
               }
 
     ds = echonet.datasets.Echo(split="external_test", external_test_location=data_dir, **kwargs)
-
     test_dataloader = torch.utils.data.DataLoader(ds, batch_size=1, num_workers=0, shuffle=True,
                                                   pin_memory=(device.type == "cuda"))
+
+    # Run inference and average predictions across sampled clips to obtain video-level RVFAC
     loss, yhat, y = echonet.utils.video.run_epoch(model, test_dataloader, False, None, device, save_all=False)
 
+    # Save predicted RVFAC values to CSV
     with open(output_csv, "w") as g:
         g.write("FileName,PredictedRVFAC\n")
         for (filename, pred) in zip(ds.fnames, yhat):

@@ -109,5 +109,5 @@ python -m echonet segmentation_inference --data_dir /path/to/input/videos --outp
 
 The following command predicts RVFAC directly from the preprocessed videos and saves the results to the specified output location:
 ```
-python -m echonet video_inference --data_dir /path/to/input/videos --output /path/to/output
+python -m echonet rvfac_inference --data_dir /path/to/input/videos --output /path/to/output
 ```

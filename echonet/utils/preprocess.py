@@ -38,7 +38,7 @@ def run(data_dir, output, crop_size, flip):
 def masking(output):
     dimension = output.shape[0]
     
-    # Mask pixels outside of scanning sector
+    # Mask pixels outside the ultrasound scanning sector
     m1, m2 = np.meshgrid(np.arange(dimension), np.arange(dimension))
 
     image_mask = ((m1 + m2) > int(dimension / 2) + int(dimension / 10))
@@ -53,7 +53,7 @@ def preprocess_video(fileToProcess, destinationFolder, cropSize=(256, 256), flip
     try:
         fileName = fileToProcess.stem
 
-        # Load data from DICOM file
+        # Load the DICOM file
         dicom_dataset = pydicom.dcmread(fileToProcess, force=True)
 
         # Extract pixel array from the DICOM dataset
@@ -61,7 +61,7 @@ def preprocess_video(fileToProcess, destinationFolder, cropSize=(256, 256), flip
         if len(pixel_array.shape) == 3:
             pixel_array = np.stack([pixel_array, pixel_array, pixel_array], axis=3)
 
-        # Crop rows containing predominantly black pixels
+        # Crop leading rows containing predominantly black pixels
         frame0 = pixel_array[0]
         mean = np.mean(frame0, axis=1)
         mean = np.mean(mean, axis=1)
@@ -71,7 +71,7 @@ def preprocess_video(fileToProcess, destinationFolder, cropSize=(256, 256), flip
             yCrop = 0
         pixel_array = pixel_array[:, yCrop:, :, :]
 
-        # Crop frames if height is not equal to width
+        # Center-crop frames to a square field of view
         bias = int(np.abs(pixel_array.shape[2] - pixel_array.shape[1]) / 2)
         if bias > 0:
             if pixel_array.shape[1] < pixel_array.shape[2]:
@@ -94,23 +94,23 @@ def preprocess_video(fileToProcess, destinationFolder, cropSize=(256, 256), flip
         video_filename = os.path.join(destinationFolder, fileName + '.avi')
         out = cv2.VideoWriter(video_filename, fourcc, fps, cropSize)
 
-        # Iterate through the frames of the DICOM file
+        # Iterate over the frames in the DICOM file
         for i in range(frames):
             outputA = pixel_array[i, :, :, 0]
 
-            # Resize frame
+            # Crop an additional 10% from each side and resize the frame
             smallOutput = outputA[int(height / 10):(height - int(height / 10)),
                                   int(height / 10):(height - int(height / 10))]
             output = cv2.resize(smallOutput, cropSize, interpolation=cv2.INTER_CUBIC)
 
-            # Mask image
+            # Mask pixels outside the ultrasound scanning sector
             final_output = masking(output)
 
-            # Flip horizontally (if needed)
+            # Horizontally flip the frame if needed
             if flip:
                 final_output = np.flip(final_output, axis=1)
 
-            # Create and save the final output frame
+            # Convert the frame to three channels and write it to the output video
             final_output = cv2.merge([final_output, final_output, final_output])
             out.write(final_output)
 

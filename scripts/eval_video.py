@@ -49,7 +49,6 @@ def main():
         plt.savefig(os.path.join(os.path.dirname(sys.argv[1]), "roc_{}.pdf".format(thresh)))
         plt.close(fig)
 
-
     # Plot actual and predicted EF
     fig = plt.figure(figsize=(3, 3))
     lower = min(y.min(), yhat.min())
