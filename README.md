@@ -36,12 +36,28 @@ Given that substantial beat-to-beat variation in the end-diastolic and end-systo
 EchoNet-RV’s segmentation module segmented the RV in all human-annotated end-diastolic and end-systolic frames with Dice coefficients of 0.893 (95% CI: 0.891–0.895), 0.797 (95% CI: 0.795–0.798), 0.788 (95% CI: 0.785–0.790), and 0.826 (95% CI: 0.820–0.832) in the held-out internal test set and the Semmelweis, MMH, and UOEH datasets, respectively.
 
 <div align="center">
-|                         |                         |                         |                         |
-| ----------------------- | ----------------------- | ----------------------- | ----------------------- |
-| ![](imgs/0031_0000.gif) | ![](imgs/0684_0023.gif) | ![](imgs/0430_0016.gif) | ![](imgs/0564_0018.gif) |
-| ![](imgs/0009_0000.gif) | ![](imgs/0137_0004.gif) | ![](imgs/0550_0000.gif) | ![](imgs/0602_0024.gif) |
-| ![](imgs/0096_0000.gif) | ![](imgs/0139_0001.gif) | ![](imgs/0562_0019.gif) | ![](imgs/0658_0035.gif) |
-<i><b>Figure 3.</b> Representative examples of semantic segmentation outputs</i></div>
+<table>
+  <tr>
+    <td><img src="imgs/0031_0000.gif"></td>
+    <td><img src="imgs/0684_0023.gif"></td>
+    <td><img src="imgs/0430_0016.gif"></td>
+    <td><img src="imgs/0564_0018.gif"></td>
+  </tr>
+  <tr>
+    <td><img src="imgs/0009_0000.gif"></td>
+    <td><img src="imgs/0137_0004.gif"></td>
+    <td><img src="imgs/0550_0000.gif"></td>
+    <td><img src="imgs/0602_0024.gif"></td>
+  </tr>
+  <tr>
+    <td><img src="imgs/0096_0000.gif"></td>
+    <td><img src="imgs/0139_0001.gif"></td>
+    <td><img src="imgs/0562_0019.gif"></td>
+    <td><img src="imgs/0658_0035.gif"></td>
+  </tr>
+</table>
+<i><b>Figure 3.</b> Representative examples of semantic segmentation outputs.</i>
+</div>
 
 ### Performance in RVFAC prediction
 
