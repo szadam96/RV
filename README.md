@@ -76,7 +76,7 @@ Follow the steps below to install EchoNet-RV:
 ```
 git clone https://github.com/echonet/rv.git
 ```
-3) Create and activate a Python virtual environment dedicated to this project. Model development was performed using Python 3.15, but the scripts in this repository have also been tested with Python 3.10.
+3) Create and activate a Python virtual environment dedicated to this project. Model development and testing were performed using Python 3.10; therefore, we recommend using this version of Python.
 4) Navigate to the cloned repository and install the required dependencies and EchoNet-RV:
 ```
 pip install -r requirements.txt
